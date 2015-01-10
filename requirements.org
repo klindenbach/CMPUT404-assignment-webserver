@@ -31,8 +31,8 @@
    - [ ] The webserver can pass all the tests in freetests.py
    - [ ] The webserver can pass all the tests in not-free-tests.py
      (you don't have this one!)
-   - [ ] The webserver supports mime-types for HTML
-   - [ ] The webserver supports mime-types for CSS
+   - [X] The webserver supports mime-types for HTML
+   - [X] The webserver supports mime-types for CSS
    - [ ] The webserver can return index.html from directories (paths
      that end in /)
    - [ ] The webserver can server 404 errors for paths not found
