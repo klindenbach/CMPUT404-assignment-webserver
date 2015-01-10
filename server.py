@@ -1,4 +1,6 @@
 import SocketServer
+import os.path
+
 # coding: utf-8
 
 # Copyright 2013 Abram Hindle, Eddie Antonio Santos
@@ -18,7 +20,7 @@ import SocketServer
 #
 #
 # Furthermore it is derived from the Python documentation examples thus
-# some of the code is Copyright © 2001-2013 Python Software
+# some of the code is Copyright c 2001-2013 Python Software
 # Foundation; All Rights Reserved
 #
 # http://docs.python.org/2/library/socketserver.html
@@ -29,11 +31,29 @@ import SocketServer
 
 
 class MyWebServer(SocketServer.BaseRequestHandler):
+
+    def get200Header(self, fileRequested, fileStr):
+        header = "HTTP/1.1 200 OK\n" + \
+                 "Date: Mon, 21 Jan 2008 18:06:16 GMT\n" + \
+                 "Content-Type: text/%s\n" % \
+                 ( "css" if fileRequested.endswith(".css") else "html") + \
+                 "Content-Length: %d\n\n" % len(fileStr)
+
+        return header
     
     def handle(self):
         self.data = self.request.recv(1024).strip()
         print ("Got a request of: %s\n" % self.data)
-        self.request.sendall("OK")
+
+        fileRequested = "./www" + self.data.split()[1]
+
+        response = ""
+        if os.path.isfile(fileRequested):
+            fileStr = open(fileRequested, "r").read()
+            header = self.get200Header(fileRequested, fileStr)
+            response = header + fileStr
+
+        self.request.sendall(response)
 
 if __name__ == "__main__":
     HOST, PORT = "localhost", 8080
