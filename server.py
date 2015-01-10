@@ -40,6 +40,19 @@ class MyWebServer(SocketServer.BaseRequestHandler):
                  "Content-Length: %d\n\n" % len(fileStr)
 
         return header
+
+    def get404Header(self):
+        header = "HTTP/1.1 404 Not Found\n" + \
+                "Date: Mon, 21 Jan 2008 18:06:16 GMT\n" + \
+                "Content-Type: text/html\n" + \
+                "Content-Length: 117\n\n" + \
+                "<html><body>\n" + \
+                "<h2>Document not found</h2>\n" + \
+                "You asked for a document that doesn't exist. " + \
+                "That is so sad.\n" + \
+                "</body></html>\n"
+
+        return header
     
     def handle(self):
         self.data = self.request.recv(1024).strip()
@@ -47,11 +60,16 @@ class MyWebServer(SocketServer.BaseRequestHandler):
 
         fileRequested = "./www" + self.data.split()[1]
 
+        if fileRequested.endswith("/"):
+            fileRequested += "index.html"
+
         response = ""
         if os.path.isfile(fileRequested):
             fileStr = open(fileRequested, "r").read()
             header = self.get200Header(fileRequested, fileStr)
             response = header + fileStr
+        else:
+            response = self.get404Header()
 
         self.request.sendall(response)
 
