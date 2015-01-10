@@ -35,18 +35,18 @@
    - [X] The webserver supports mime-types for CSS
    - [X] The webserver can return index.html from directories (paths
      that end in /)
-   - [x] The webserver can server 404 errors for paths not found
+   - [X] The webserver can server 404 errors for paths not found
    - [X] The webserver works with Firefox and Chromium
      http://127.0.0.1:8080/
-   - [x] The webserver can serve CSS properly so that the front page
+   - [X] The webserver can serve CSS properly so that the front page
      has an orange h1 header.
    - [X] I can check out the source code via an HTTP git URL
-   - [ ] Provide a screenshot (commit and push it!) of Firefox at
+   - [X] Provide a screenshot (commit and push it!) of Firefox at
      http://127.0.0.1:8080/ and http://127.0.0.1:8080/deep
 
 ** Restrictions
    - [X] Use Python 2.7
-   - [ ] Must run in the undergrad lab (Ubuntu 12.04)
+   - [X] Must run in the undergrad lab (Ubuntu 12.04)
    - [X] License your webserver properly (use an OSI approved license)
      - Put your name on it!
    - [X] You cannot use a Web Server library

@@ -49,7 +49,7 @@ class MyWebServer(SocketServer.BaseRequestHandler):
 
     def get404Header(self):
         header = "HTTP/1.1 404 Not Found\n" + \
-                "Date: %s\n" %(self.getdateString())+ \
+                "Date: %s\n" %(self.getDateString())+ \
                 "Content-Type: text/html\n" + \
                 "Content-Length: 117\n\n" + \
                 "<html><body>\n" + \
