@@ -3,4 +3,4 @@ python:
     - "2.7"
 
 #install:
-script: "bash runner.py"
+script: "bash runner.sh"
