@@ -16,6 +16,8 @@ server.py contains contributions from:
 
 * Abram Hindle
 * Eddie Antonio Santos
+* Konrad Lindenbach
+* Ben Dubois
 
 But the server.py example is derived from the python documentation
 examples thus some of the code is Copyright © 2001-2013 Python
