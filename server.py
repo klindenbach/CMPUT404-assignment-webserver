@@ -1,5 +1,6 @@
 import SocketServer
 import os.path
+from email.utils import formatdate
 
 # coding: utf-8
 
@@ -31,10 +32,15 @@ import os.path
 
 
 class MyWebServer(SocketServer.BaseRequestHandler):
+    
+    def getDateString(self):
+        
+        dateString = formatdate(timeval=None, localtime=False, usegmt=True)
+        return dateString
 
     def get200Header(self, fileRequested, fileStr):
         header = "HTTP/1.1 200 OK\n" + \
-                 "Date: Mon, 21 Jan 2008 18:06:16 GMT\n" + \
+                 "Date: %s\n" %(self.getDateString()) + \
                  "Content-Type: text/%s\n" % \
                  ( "css" if fileRequested.endswith(".css") else "html") + \
                  "Content-Length: %d\n\n" % len(fileStr)
@@ -43,7 +49,7 @@ class MyWebServer(SocketServer.BaseRequestHandler):
 
     def get404Header(self):
         header = "HTTP/1.1 404 Not Found\n" + \
-                "Date: Mon, 21 Jan 2008 18:06:16 GMT\n" + \
+                "Date: %s\n" %(self.getdateString())+ \
                 "Content-Type: text/html\n" + \
                 "Content-Length: 117\n\n" + \
                 "<html><body>\n" + \
