@@ -47,6 +47,17 @@ class MyWebServer(SocketServer.BaseRequestHandler):
 
         return header
 
+    #this 300 header will be used for redirecting URLS ending without
+    #a slash, when requesting an existing directory, else 404
+    def get300Header(self, fileRequested):
+        #strip ./www
+        location = fileRequested[5:] + "/"
+        print(location)
+        header = "HTTP/1.1 301 Moved Permanently\n" + \
+                 "Location: %s\n\n" %location
+        
+        return header
+    
     def get404Header(self):
         header = "HTTP/1.1 404 Not Found\n" + \
                 "Date: %s\n" %(self.getDateString())+ \
@@ -66,6 +77,9 @@ class MyWebServer(SocketServer.BaseRequestHandler):
 
         return  os.path.isfile(path)
     
+    def pathIsDirectory(self, path):
+        return  os.path.isdir(path)
+    
     def handle(self):
         self.data = self.request.recv(1024).strip()
         print ("Got a request of: %s\n" % self.data)
@@ -75,11 +89,14 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         if fileRequested.endswith("/"):
             fileRequested += "index.html"
 
+        
         response = ""
         if self.pathIsValid(fileRequested):
             fileStr = open(fileRequested, "r").read()
             header = self.get200Header(fileRequested, fileStr)
-            response = header + fileStr
+            response = header + fileStr 
+        elif self.pathIsDirectory(fileRequested):
+            response = self.get300Header(fileRequested)
         else:
             response = self.get404Header()
 
