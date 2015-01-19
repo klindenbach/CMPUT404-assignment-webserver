@@ -52,7 +52,6 @@ class MyWebServer(SocketServer.BaseRequestHandler):
     def get300Header(self, fileRequested):
         #strip ./www
         location = fileRequested[5:] + "/"
-        print(location)
         header = "HTTP/1.1 301 Moved Permanently\n" + \
                  "Location: %s\n\n" %location
         
