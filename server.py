@@ -74,7 +74,8 @@ class MyWebServer(SocketServer.BaseRequestHandler):
     def pathIsValid(self, path):
         if "/../" in  path or path.startswith("../") or path.endswith("/.."):
             return False
-
+        elif os.path.isdir(path):
+            return False
         return  os.path.isfile(path)
     
     def pathIsDirectory(self, path):
@@ -89,14 +90,14 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         if fileRequested.endswith("/"):
             fileRequested += "index.html"
 
-        
         response = ""
-        if self.pathIsValid(fileRequested):
+        
+        if self.pathIsDirectory(fileRequested):
+            response = self.get300Header(fileRequested) 
+        elif self.pathIsValid(fileRequested):
             fileStr = open(fileRequested, "r").read()
             header = self.get200Header(fileRequested, fileStr)
             response = header + fileStr 
-        elif self.pathIsDirectory(fileRequested):
-            response = self.get300Header(fileRequested)
         else:
             response = self.get404Header()
 
